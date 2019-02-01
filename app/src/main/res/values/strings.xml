@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Na ponta do dedo</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Carregando usuário</string>
+    <string name="nav_header_subtitle">Carregando e-mail</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Configurações</string>
+    <string name="make_your_account">Crie sua conta</string>
+</resources>
