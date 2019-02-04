@@ -10,4 +10,11 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="categories_prompt">Escolha um tipo de conta</string>
+    <string-array name="categories_arrays">
+        <item>Receita</item>
+        <item>Despesa</item>
+    </string-array>
+
 </resources>

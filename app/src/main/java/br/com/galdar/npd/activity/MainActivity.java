@@ -76,20 +76,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FrameLayout frameLayout;
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        /*getBalance();
-        getTransacions();*/
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        // userRef.removeEventListener(valueEventListenerFromUser);
-        // transactionsRef.removeEventListener(valueEventListenerFromTransactions);
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
