@@ -1,5 +1,7 @@
 package br.com.galdar.npd.activity;
 
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
@@ -9,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -18,6 +21,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Calendar;
+import java.util.Locale;
 
 import br.com.galdar.npd.R;
 import br.com.galdar.npd.config.FirebaseConfig;
@@ -34,14 +40,12 @@ public class ExpenseActivity extends AppCompatActivity {
     private DatabaseReference dbReference = FirebaseConfig.getFirebaseDatabase();
     private FirebaseAuth auth = FirebaseConfig.getFirebaseAuth();
     private Double expensesTotal;
+    private boolean calOpen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expense);
-
-        // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        // setSupportActionBar(toolbar);
 
         getSupportActionBar().setTitle("Nova despesa");
         getSupportActionBar().setBackgroundDrawable( new ColorDrawable( Color.parseColor( "#88363C" ) ));
@@ -55,12 +59,52 @@ public class ExpenseActivity extends AppCompatActivity {
 
         expenseDate.setText( DateCustom.currentDateFormated() );
         getExpensesTotal();
+
+        expenseDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if( v.hasFocus() ){
+                    showDateCalendar(v);
+                }
+            }
+        });
     }
 
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    public void showDateCalendar (View view) {
+        if( calOpen == false ) {
+            calOpen = true;
+
+            Locale locale = getResources().getConfiguration().locale;
+            Locale.setDefault(locale);
+
+            Calendar cal = Calendar.getInstance();
+            DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                    String dayFormated = String.format("%02d", ( ( dayOfMonth ) ));
+                    String monthFormated = String.format("%02d", ( ( month + 1 ) ));
+                    expenseDate.setText( dayFormated + "/" + monthFormated + "/" + year );
+                    calOpen = false;
+                }
+
+            };
+
+            DatePickerDialog dialog = new DatePickerDialog( ExpenseActivity.this,  date, cal.get( Calendar.YEAR ), cal.get( Calendar.MONTH ), cal.get( Calendar.DAY_OF_MONTH ) );
+            dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    if (which == DialogInterface.BUTTON_NEGATIVE) {
+                        calOpen = false;
+                    }
+                }
+            });
+            dialog.show();
+        }
     }
 
     public void saveExpense(View view) {
