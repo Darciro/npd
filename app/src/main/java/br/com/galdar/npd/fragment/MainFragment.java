@@ -237,8 +237,6 @@ public class MainFragment extends Fragment {
         String monthFormated = String.format("%02d", (curDate.getMonth()));
         monthYearSelected = String.valueOf(monthFormated + "" + curDate.getYear());
 
-        Log.i( "XXX", "configCalendarView" );
-
         transactionsCalendar.setOnMonthChangedListener(new OnMonthChangedListener() {
             @Override
             public void onMonthChanged(MaterialCalendarView widget, CalendarDay date) {

@@ -48,7 +48,7 @@ public class Category {
         this.description = description;
     }
 
-    public void save( String type ) {
+    public void save() {
 
         FirebaseAuth auth = FirebaseConfig.getFirebaseAuth();
         String userID = Base64Custom.encodeBase64( auth.getCurrentUser().getEmail() );
@@ -57,7 +57,7 @@ public class Category {
         DatabaseReference dbReference = FirebaseConfig.getFirebaseDatabase();
         String exception = "";
         try {
-            dbReference.child( "users" ).child ( userID ).child( "categories" ).child( type ).push().setValue( this );
+            dbReference.child( "users" ).child ( userID ).child( "categories" ).push().setValue( this );
             // Toast.makeText("", "Preencha o campo senha", Toast.LENGTH_LONG ).show();
 
         } catch (Exception e) {

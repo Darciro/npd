@@ -59,8 +59,6 @@ public class IncomeActivity extends AppCompatActivity {
         incomeCategory = findViewById(R.id.incomeCategory);
         incomeDesc = findViewById(R.id.incomeDesc);
         incomeValue = findViewById(R.id.incomeValue);
-        /*parcelsNums = findViewById(R.id.parcelsNums);
-        parcelsCheck = findViewById(R.id.parcelsCheck);*/
 
         incomeDate.setText( DateCustom.currentDateFormated() );
         getIncomesTotal();
@@ -73,23 +71,6 @@ public class IncomeActivity extends AppCompatActivity {
                 }
             }
         });
-
-        /*if( parcelsCheck.isChecked() ){
-            parcelsNums.setEnabled( true );
-        } else {
-            parcelsNums.setEnabled( false );
-        }
-
-        parcelsCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if( parcelsCheck.isChecked() ){
-                    parcelsNums.setEnabled( true );
-                } else {
-                    parcelsNums.setEnabled( false );
-                }
-            }
-        });*/
     }
 
     @Override
