@@ -1,11 +1,13 @@
 package br.com.galdar.npd.fragment;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -55,6 +57,11 @@ public class ExpenseFragment extends Fragment {
         getExpenses();
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Despesas");
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
