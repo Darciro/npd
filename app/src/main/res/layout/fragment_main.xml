@@ -105,27 +105,26 @@
         fab:menu_labels_position="left"
         fab:menu_openDirection="up"
         fab:menu_backgroundColor="@android:color/transparent"
-        fab:menu_fab_label="Selecione uma opção"
         android:layout_gravity="bottom|end">
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/menu_add_income"
             android:onClick="addIncome"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_add_24dp"
             fab:fab_size="mini"
-            fab:fab_label="Receita"
+            fab:fab_label="Nova Receita"
             fab:fab_colorNormal="@color/colorPrimaryIncome"/>
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/menu_add_expense"
             android:onClick="addExpense"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_add_24dp"
             fab:fab_size="mini"
-            fab:fab_label="Despesa"
+            fab:fab_label="Nova Despesa"
             fab:fab_colorNormal="@color/colorPrimaryExpense"/>
 
     </com.github.clans.fab.FloatingActionMenu>
