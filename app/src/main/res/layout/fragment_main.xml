@@ -22,14 +22,14 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp">
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/loadingText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:text="Carregando"
                 android:textColor="@android:color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp" />-->
 
             <TextView
                 android:id="@+id/balanceValue"

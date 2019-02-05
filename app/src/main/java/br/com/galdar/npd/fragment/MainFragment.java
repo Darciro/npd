@@ -98,7 +98,7 @@ public class MainFragment extends Fragment {
         userEmailText = headerView.findViewById(R.id.userEmail);
 
         transactionsCalendar = view.findViewById(R.id.transactionsCalendar);
-        loadingText = view.findViewById(R.id.loadingText);
+        // loadingText = view.findViewById(R.id.loadingText);
         balanceValue = view.findViewById(R.id.balanceValue);
         recyclerTransactions = view.findViewById(R.id.recyclerTransactions);
 
