@@ -1,5 +1,7 @@
 package br.com.galdar.npd.activity;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,6 +36,8 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
 
         getSupportActionBar().setTitle("Cadastro");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         signinName =  findViewById( R.id.signinName );
         signinEmail =  findViewById( R.id.signinEmail);
@@ -73,6 +77,12 @@ public class SignInActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     public void registerUser () {
