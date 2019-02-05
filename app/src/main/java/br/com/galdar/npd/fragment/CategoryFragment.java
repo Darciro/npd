@@ -72,6 +72,7 @@ public class CategoryFragment extends Fragment {
 
         recyclerCategories = view.findViewById( R.id.recyclerCategories );
         recyclerCategories.setHasFixedSize( true );
+        recyclerCategories.addItemDecoration( new DividerItemDecoration( getActivity().getApplicationContext(), LinearLayout.VERTICAL) );
 
         recyclerCategoriesLayoutManager = new LinearLayoutManager( getActivity().getApplicationContext() );
         recyclerCategories.setLayoutManager( recyclerCategoriesLayoutManager );

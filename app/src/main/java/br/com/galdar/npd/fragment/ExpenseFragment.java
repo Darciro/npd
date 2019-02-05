@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,24 +24,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.galdar.npd.R;
-import br.com.galdar.npd.activity.AddCategoryActivity;
-import br.com.galdar.npd.activity.IncomeActivity;
-import br.com.galdar.npd.adapter.CategoryAdapter;
+import br.com.galdar.npd.activity.ExpenseActivity;
 import br.com.galdar.npd.adapter.TransactionsAdapter;
 import br.com.galdar.npd.config.FirebaseConfig;
 import br.com.galdar.npd.helper.Base64Custom;
-import br.com.galdar.npd.model.Category;
 import br.com.galdar.npd.model.Transaction;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class IncomeFragment extends Fragment {
-
+public class ExpenseFragment extends Fragment {
 
     private FloatingActionButton fabCategory;
 
-    private RecyclerView recyclerIncomes;
+    private RecyclerView recyclerExpenses;
     private TransactionsAdapter transactionsAdapter;
     private List<Transaction> transactionsList = new ArrayList<>();
     private Transaction transaction;
@@ -57,40 +52,40 @@ public class IncomeFragment extends Fragment {
 
     public void onStart() {
         super.onStart();
-        getIncomes();
+        getExpenses();
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_income, container, false);
+        View view = inflater.inflate(R.layout.fragment_expense, container, false);
 
-        fabCategory = view.findViewById( R.id.fabAddIncome );
+        fabCategory = view.findViewById( R.id.fabAddExpense );
         fabCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addIncome(v);
+                addExpense(v);
             }
         });
 
-        recyclerIncomes = view.findViewById(R.id.recyclerIncomes);
+        recyclerExpenses = view.findViewById(R.id.recyclerExpenses);
         transactionsAdapter = new TransactionsAdapter(transactionsList, getActivity().getApplicationContext() );
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-        recyclerIncomes.setLayoutManager(layoutManager);
-        recyclerIncomes.setHasFixedSize(true);
-        recyclerIncomes.addItemDecoration( new DividerItemDecoration( getActivity().getApplicationContext(), LinearLayout.VERTICAL) );
-        recyclerIncomes.setAdapter(transactionsAdapter);
+        recyclerExpenses.setLayoutManager(layoutManager);
+        recyclerExpenses.setHasFixedSize(true);
+        recyclerExpenses.addItemDecoration( new DividerItemDecoration( getActivity().getApplicationContext(), LinearLayout.VERTICAL) );
+        recyclerExpenses.setAdapter(transactionsAdapter);
 
         return view;
     }
 
-    public void addIncome(View view) {
-        startActivity(new Intent( getActivity().getApplicationContext(), IncomeActivity.class));
+    public void addExpense(View view) {
+        startActivity(new Intent( getActivity().getApplicationContext(), ExpenseActivity.class));
     }
 
-    public void getIncomes () {
+    public void getExpenses () {
         String userEmail = auth.getCurrentUser().getEmail();
         String userID = Base64Custom.encodeBase64(userEmail);
         transactionsRef = dbReference.child("transactions").child( userID );
@@ -103,7 +98,7 @@ public class IncomeFragment extends Fragment {
 
                     for( DataSnapshot d: data.getChildren() ){
 
-                        if( d.child("type").getValue().equals( "income" ) ){
+                        if( d.child("type").getValue().equals( "expense" ) ){
                             Transaction transaction = d.getValue(Transaction.class);
                             transaction.setID( d.getKey() );
                             transactionsList.add(transaction);

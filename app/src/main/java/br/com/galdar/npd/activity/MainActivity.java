@@ -41,6 +41,8 @@ import br.com.galdar.npd.R;
 import br.com.galdar.npd.adapter.TransactionsAdapter;
 import br.com.galdar.npd.config.FirebaseConfig;
 import br.com.galdar.npd.fragment.CategoryFragment;
+import br.com.galdar.npd.fragment.ExpenseFragment;
+import br.com.galdar.npd.fragment.IncomeFragment;
 import br.com.galdar.npd.fragment.MainFragment;
 import br.com.galdar.npd.helper.Base64Custom;
 import br.com.galdar.npd.model.Transaction;
@@ -149,7 +151,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.nav_incomes) {
 
+            IncomeFragment incomeFragment = new IncomeFragment();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frameContainer, incomeFragment);
+            fragmentTransaction.commit();
+
         } else if (id == R.id.nav_expenses) {
+
+            ExpenseFragment expenseFragment = new ExpenseFragment();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frameContainer, expenseFragment);
+            fragmentTransaction.commit();
 
         } else if (id == R.id.nav_categories) {
 
