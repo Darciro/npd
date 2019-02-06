@@ -47,7 +47,7 @@ import br.com.galdar.npd.model.User;
 public class MainFragment extends Fragment {
 
     private MaterialCalendarView transactionsCalendar;
-    private TextView loadingText, balanceValue;
+    private TextView balanceMonthText, balanceValue;
     private RecyclerView recyclerTransactions;
     private TransactionsAdapter transactionsAdapter;
     private List<Transaction> transactionsList = new ArrayList<>();
@@ -70,6 +70,7 @@ public class MainFragment extends Fragment {
     private Double userBalance = 0.0;
 
     private String monthYearSelected;
+    private CharSequence meses[] = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
 
     public MainFragment() {
         // Required empty public constructor
@@ -101,9 +102,10 @@ public class MainFragment extends Fragment {
         // loadingText = view.findViewById(R.id.loadingText);
         balanceValue = view.findViewById(R.id.balanceValue);
         recyclerTransactions = view.findViewById(R.id.recyclerTransactions);
+        balanceMonthText = view.findViewById(R.id.balanceMonthText);
 
         configCalendarView();
-        swipe();
+        // swipe();
 
         transactionsAdapter = new TransactionsAdapter(transactionsList, getActivity().getApplicationContext() );
 
@@ -120,20 +122,25 @@ public class MainFragment extends Fragment {
 
         final String userEmail = auth.getCurrentUser().getEmail();
         String userID = Base64Custom.encodeBase64(userEmail);
-        userRef = dbReference.child("users").child(userID);
+        transactionsRef = dbReference.child("transactions").child(userID).child(monthYearSelected);
 
-        valueEventListenerFromUser = userRef.addValueEventListener(new ValueEventListener() {
+        valueEventListenerFromUser = transactionsRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                expensesTotal = user.getExpensesTotal();
-                incomesTotal = user.getIncomesTotal();
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                transactionsList.clear();
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    // Transaction transaction = data.getValue(Transaction.class);
+                    if( data.child("type").getValue().toString().equals("expense") ){
+                        Class cls = data.child("value").getValue().toString().getClass(); // cls.getName() To return the type for this object
+                        // Log.i("XXX", data.child("value").getValue().toString() + " " + cls.getName() );
+                        expensesTotal += Double.parseDouble( data.child("value").getValue().toString() );
+                    } else if( data.child("type").getValue().toString().equals("income") ){
+                        incomesTotal += Double.parseDouble( data.child("value").getValue().toString() );
+                    }
+                }
+
                 userBalance = incomesTotal - expensesTotal;
-
-                DecimalFormat decimalFormat = new DecimalFormat("0.##");
-
-                userNameText.setText(user.getName());
-                userEmailText.setText(userEmail);
+                DecimalFormat decimalFormat = new DecimalFormat("0.##;-0.##");
                 balanceValue.setText("R$ " + decimalFormat.format(userBalance));
             }
 
@@ -154,13 +161,25 @@ public class MainFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 transactionsList.clear();
+                expensesTotal = 0.0;
+                incomesTotal = 0.0;
+
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
                     Transaction transaction = data.getValue(Transaction.class);
                     transaction.setID(data.getKey());
                     transactionsList.add(transaction);
+
+                    if( data.child("type").getValue().toString().equals("expense") ){
+                        expensesTotal += Double.parseDouble( data.child("value").getValue().toString() );
+                    } else if( data.child("type").getValue().toString().equals("income") ){
+                        incomesTotal += Double.parseDouble( data.child("value").getValue().toString() );
+                    }
                 }
 
                 transactionsAdapter.notifyDataSetChanged();
+                userBalance = incomesTotal - expensesTotal;
+                DecimalFormat decimalFormat = new DecimalFormat("0.##;-0.##");
+                balanceValue.setText("R$ " + decimalFormat.format(userBalance));
             }
 
             @Override
@@ -230,27 +249,27 @@ public class MainFragment extends Fragment {
 
     public void configCalendarView() {
 
-        CharSequence meses[] = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
         transactionsCalendar.setTitleMonths(meses);
 
         CalendarDay curDate = transactionsCalendar.getCurrentDate();
         String monthFormated = String.format("%02d", (curDate.getMonth()));
         monthYearSelected = String.valueOf(monthFormated + "" + curDate.getYear());
+        balanceMonthText.setText( "Saldo total para o mês de " + meses[ curDate.getMonth() -1 ] );
 
         transactionsCalendar.setOnMonthChangedListener(new OnMonthChangedListener() {
             @Override
             public void onMonthChanged(MaterialCalendarView widget, CalendarDay date) {
+
                 String monthFormated = String.format("%02d", (date.getMonth()));
+                balanceMonthText.setText( "Saldo total para o mês de " + meses[ date.getMonth() -1 ] );
                 monthYearSelected = String.valueOf(monthFormated + "" + date.getYear());
                 transactionsRef.removeEventListener(valueEventListenerFromTransactions);
                 getTransacions();
-
-                Log.i( "XXX", "onMonthChanged" );
             }
         });
     }
 
-    public void swipe() {
+    /*public void swipe() {
         ItemTouchHelper.Callback itemTouch = new ItemTouchHelper.Callback() {
             @Override
             public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
@@ -271,6 +290,6 @@ public class MainFragment extends Fragment {
         };
 
         new ItemTouchHelper(itemTouch).attachToRecyclerView(recyclerTransactions);
-    }
+    }*/
 
 }
