@@ -254,14 +254,14 @@ public class MainFragment extends Fragment {
         CalendarDay curDate = transactionsCalendar.getCurrentDate();
         String monthFormated = String.format("%02d", (curDate.getMonth()));
         monthYearSelected = String.valueOf(monthFormated + "" + curDate.getYear());
-        balanceMonthText.setText( "Saldo total para o mês de " + meses[ curDate.getMonth() -1 ] );
+        balanceMonthText.setText( "Saldo total para " + meses[ curDate.getMonth() -1 ] );
 
         transactionsCalendar.setOnMonthChangedListener(new OnMonthChangedListener() {
             @Override
             public void onMonthChanged(MaterialCalendarView widget, CalendarDay date) {
 
                 String monthFormated = String.format("%02d", (date.getMonth()));
-                balanceMonthText.setText( "Saldo total para o mês de " + meses[ date.getMonth() -1 ] );
+                balanceMonthText.setText( "Saldo total para " + meses[ date.getMonth() -1 ] );
                 monthYearSelected = String.valueOf(monthFormated + "" + date.getYear());
                 // transactionsRef.removeEventListener(valueEventListenerFromTransactions);
                 getTransacions();

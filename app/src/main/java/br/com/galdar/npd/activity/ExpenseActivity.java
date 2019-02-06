@@ -2,8 +2,10 @@ package br.com.galdar.npd.activity;
 
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.content.ContextCompat;
@@ -46,10 +48,11 @@ public class ExpenseActivity extends AppCompatActivity {
     private FirebaseAuth auth = FirebaseConfig.getFirebaseAuth();
     private Double expensesTotal;
     private boolean calOpen = false;
-    private ImageView incomeRepeaterButtonExpense;
+    private ImageView expenseRepeaterButton, expenseReminderButton, expensePhotoButton;
     private MaterialNumberPicker numberPicker;
     private AlertDialog repeaterAlert;
-    private TextView repeaterSettedHeaderExpense, repeaterSettedExpense;
+    private TextView expenseRepeaterSettedHeader, expenseRepeaterSetted;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +68,11 @@ public class ExpenseActivity extends AppCompatActivity {
         expenseCategory = findViewById(R.id.expenseCategory);
         expenseDesc = findViewById(R.id.expenseDesc);
         expenseValue = findViewById(R.id.expenseValue);
-        incomeRepeaterButtonExpense = findViewById(R.id.incomeRepeaterButtonExpense);
-        repeaterSettedHeaderExpense = findViewById(R.id.repeaterSettedHeaderExpense);
-        repeaterSettedExpense = findViewById(R.id.repeaterSettedExpense);
+        expenseRepeaterButton = findViewById(R.id.expenseRepeaterButton);
+        expenseRepeaterSettedHeader = findViewById(R.id.expenseRepeaterSettedHeader);
+        expenseRepeaterSetted = findViewById(R.id.expenseRepeaterSetted);
+        expenseReminderButton = findViewById(R.id.expenseReminderButton);
+        expensePhotoButton = findViewById(R.id.expensePhotoButton);
 
         expenseDate.setText( DateCustom.currentDateFormated() );
         getExpensesTotal();
@@ -81,12 +86,38 @@ public class ExpenseActivity extends AppCompatActivity {
             }
         });
 
-        incomeRepeaterButtonExpense.setOnClickListener(new View.OnClickListener() {
+        expenseRepeaterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expenseRepeater();
             }
         });
+
+        expenseReminderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expenseReminder();
+            }
+        });
+
+        expensePhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expensePhoto();
+            }
+        });
+    }
+
+    public void expenseReminder() {
+        Calendar cal = Calendar.getInstance();
+        Intent intent = new Intent(Intent.ACTION_EDIT);
+        intent.setType("vnd.android.cursor.item/event");
+        intent.putExtra("beginTime", cal.getTimeInMillis());
+        intent.putExtra("allDay", false);
+        intent.putExtra("rule", "FREQ=DAILY");
+        intent.putExtra("endTime", cal.getTimeInMillis()+60*60*1000);
+        intent.putExtra("title", "Lembrete: Na ponta do dedo");
+        startActivity(intent);
     }
 
     public void expenseRepeater () {
@@ -106,15 +137,15 @@ public class ExpenseActivity extends AppCompatActivity {
             public void onClick(DialogInterface arg0, int arg1) {
                 // Toast.makeText(IncomeActivity.this, "positivo=" + arg1 + ", " + numberPicker.getValue(), Toast.LENGTH_SHORT).show();
                 if( numberPicker.getValue() == 0 ){
-                    repeaterSettedExpense.setVisibility(View.GONE);
-                    repeaterSettedExpense.setText("");
-                    repeaterSettedExpense.setTextColor( getResources().getColor(R.color.colorTextGrey) );
-                    repeaterSettedHeaderExpense.setTextColor( getResources().getColor(R.color.colorTextGrey) );
+                    expenseRepeaterSetted.setVisibility(View.GONE);
+                    expenseRepeaterSetted.setText("");
+                    expenseRepeaterSetted.setTextColor( getResources().getColor(R.color.colorTextGrey) );
+                    expenseRepeaterSettedHeader.setTextColor( getResources().getColor(R.color.colorTextGrey) );
                 } else {
-                    repeaterSettedExpense.setVisibility(View.VISIBLE);
-                    repeaterSettedExpense.setText( numberPicker.getValue() + " vezes" );
-                    repeaterSettedExpense.setTextColor( getResources().getColor(R.color.colorAccentExpense) );
-                    repeaterSettedHeaderExpense.setTextColor( getResources().getColor(R.color.colorAccentExpense) );
+                    expenseRepeaterSetted.setVisibility(View.VISIBLE);
+                    expenseRepeaterSetted.setText( numberPicker.getValue() + " vezes" );
+                    expenseRepeaterSetted.setTextColor( getResources().getColor(R.color.colorAccentExpense) );
+                    expenseRepeaterSettedHeader.setTextColor( getResources().getColor(R.color.colorAccentExpense) );
                 }
             }
         });
@@ -125,6 +156,13 @@ public class ExpenseActivity extends AppCompatActivity {
         });
         repeaterAlert = builder.create();
         repeaterAlert.show();
+    }
+
+    public void expensePhoto() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
     }
 
     @Override

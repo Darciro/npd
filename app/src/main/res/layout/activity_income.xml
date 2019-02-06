@@ -177,7 +177,7 @@
             android:paddingBottom="8dp">
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/incomeReminderButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
@@ -207,7 +207,7 @@
             android:paddingBottom="8dp">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/incomePhotoButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"

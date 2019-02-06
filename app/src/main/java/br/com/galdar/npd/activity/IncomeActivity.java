@@ -2,9 +2,11 @@ package br.com.galdar.npd.activity;
 
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.content.ContextCompat;
@@ -52,10 +54,11 @@ public class IncomeActivity extends AppCompatActivity {
     private FirebaseAuth auth = FirebaseConfig.getFirebaseAuth();
     private Double incomesTotal;
     private boolean calOpen = false;
-    private ImageView incomeRepeaterButton;
+    private ImageView incomeRepeaterButton, incomeReminderButton, incomePhotoButton;
     private MaterialNumberPicker numberPicker;
     private AlertDialog repeaterAlert;
     private TextView repeaterSettedHeader, repeaterSetted;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +76,8 @@ public class IncomeActivity extends AppCompatActivity {
         incomeRepeaterButton = findViewById(R.id.incomeRepeaterButton);
         repeaterSettedHeader = findViewById(R.id.repeaterSettedHeader);
         repeaterSetted = findViewById(R.id.repeaterSetted);
+        incomeReminderButton = findViewById(R.id.incomeReminderButton);
+        incomePhotoButton = findViewById(R.id.incomePhotoButton);
 
         incomeDate.setText( DateCustom.currentDateFormated() );
         getIncomesTotal();
@@ -90,6 +95,20 @@ public class IncomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 incomeRepeater();
+            }
+        });
+
+        incomeReminderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                incomeReminder();
+            }
+        });
+
+        incomePhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                incomePhoto();
             }
         });
     }
@@ -130,6 +149,25 @@ public class IncomeActivity extends AppCompatActivity {
         });
         repeaterAlert = builder.create();
         repeaterAlert.show();
+    }
+
+    public void incomeReminder() {
+        Calendar cal = Calendar.getInstance();
+        Intent intent = new Intent(Intent.ACTION_EDIT);
+        intent.setType("vnd.android.cursor.item/event");
+        intent.putExtra("beginTime", cal.getTimeInMillis());
+        intent.putExtra("allDay", false);
+        intent.putExtra("rule", "FREQ=DAILY");
+        intent.putExtra("endTime", cal.getTimeInMillis()+60*60*1000);
+        intent.putExtra("title", "Lembrete: Na ponta do dedo");
+        startActivity(intent);
+    }
+
+    public void incomePhoto() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
     }
 
     @Override
