@@ -90,15 +90,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.replace(R.id.frameContainer, mainFragment);
         fragmentTransaction.commit();
 
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -201,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent email = new Intent( Intent.ACTION_SEND );
         // email.putExtra( Intent.EXTRA_EMAIL, new String[]{ "rickmanu@gmail.com", "contato@galdar.com.br" } );
         email.putExtra( Intent.EXTRA_SUBJECT, "Checkout this new brand aap" );
-        email.putExtra( Intent.EXTRA_TEXT, "Na ponta do dedo, suas contas de modo fácil! Adiquira em http://galdar.com.br" );
+        email.putExtra( Intent.EXTRA_TEXT, "Na ponta do dedo, suas contas de modo fácil! Adiquira em https://play.google.com/store/apps/details?id=br.com.galdar.npd" );
         email.setType( "message/rfc822" ); // Type for send email message
         // email.setType( "application/pdf" ); // Type for open pdf
         // email.setType( "image/png" ); // Type for open image png
