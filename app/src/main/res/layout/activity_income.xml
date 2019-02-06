@@ -128,7 +128,7 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="5"
             android:gravity="center"
             android:orientation="vertical"
@@ -136,22 +136,34 @@
             android:paddingBottom="8dp">
 
             <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/incomeRepeaterButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
                 android:layout_weight="5"
                 android:gravity="center"
-                android:layout_marginBottom="8dp"
+                android:visibility="visible"
                 app:srcCompat="@drawable/ic_repeat_24dp" />
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/repeaterSettedHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
                 android:gravity="center"
                 android:text="Repete"
+                android:textColor="@color/colorTextGrey"
                 android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/repeaterSetted"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:gravity="center"
+                android:text=""
+                android:textSize="12sp"
+                android:visibility="gone" />
 
         </LinearLayout>
 
@@ -166,7 +178,7 @@
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
                 android:gravity="center"
@@ -179,6 +191,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
                 android:gravity="center"
+                android:textColor="@color/colorTextGrey"
                 android:text="Lembrete"
                 android:textSize="12sp" />
 
@@ -195,7 +208,7 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
                 android:gravity="center"
@@ -209,6 +222,7 @@
                 android:layout_weight="5"
                 android:gravity="center"
                 android:text="Foto"
+                android:textColor="@color/colorTextGrey"
                 android:textSize="12sp" />
 
         </LinearLayout>

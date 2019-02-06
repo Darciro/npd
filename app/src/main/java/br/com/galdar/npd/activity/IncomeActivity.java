@@ -3,9 +3,12 @@ package br.com.galdar.npd.activity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,8 +18,12 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.NumberPicker;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.stephenvinouze.materialnumberpickercore.MaterialNumberPicker;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -45,6 +52,10 @@ public class IncomeActivity extends AppCompatActivity {
     private FirebaseAuth auth = FirebaseConfig.getFirebaseAuth();
     private Double incomesTotal;
     private boolean calOpen = false;
+    private ImageView incomeRepeaterButton;
+    private MaterialNumberPicker numberPicker;
+    private AlertDialog repeaterAlert;
+    private TextView repeaterSettedHeader, repeaterSetted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +70,9 @@ public class IncomeActivity extends AppCompatActivity {
         incomeCategory = findViewById(R.id.incomeCategory);
         incomeDesc = findViewById(R.id.incomeDesc);
         incomeValue = findViewById(R.id.incomeValue);
+        incomeRepeaterButton = findViewById(R.id.incomeRepeaterButton);
+        repeaterSettedHeader = findViewById(R.id.repeaterSettedHeader);
+        repeaterSetted = findViewById(R.id.repeaterSetted);
 
         incomeDate.setText( DateCustom.currentDateFormated() );
         getIncomesTotal();
@@ -71,6 +85,51 @@ public class IncomeActivity extends AppCompatActivity {
                 }
             }
         });
+
+        incomeRepeaterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                incomeRepeater();
+            }
+        });
+    }
+
+    public void incomeRepeater () {
+        final MaterialNumberPicker numberPicker = new MaterialNumberPicker(this);
+        numberPicker.setMinValue(0);
+        numberPicker.setMaxValue(360);
+        numberPicker.setValue(0);
+        numberPicker.setEditable(true);
+        numberPicker.setWrapSelectorWheel(true);
+        numberPicker.setTextSize(60);
+        numberPicker.setSeparatorColor( ContextCompat.getColor(this, R.color.colorAccent) );
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Repetir");
+        builder.setView( numberPicker );
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                // Toast.makeText(IncomeActivity.this, "positivo=" + arg1 + ", " + numberPicker.getValue(), Toast.LENGTH_SHORT).show();
+                if( numberPicker.getValue() == 0 ){
+                    repeaterSetted.setVisibility(View.GONE);
+                    repeaterSetted.setText("");
+                    repeaterSetted.setTextColor( getResources().getColor(R.color.colorTextGrey) );
+                    repeaterSettedHeader.setTextColor( getResources().getColor(R.color.colorTextGrey) );
+                } else {
+                    repeaterSetted.setVisibility(View.VISIBLE);
+                    repeaterSetted.setText( numberPicker.getValue() + " vezes" );
+                    repeaterSetted.setTextColor( getResources().getColor(R.color.colorAccentIncome) );
+                    repeaterSettedHeader.setTextColor( getResources().getColor(R.color.colorAccentIncome) );
+                }
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                // Toast.makeText(IncomeActivity.this, "negativo=" + arg1 + ", " + numberPicker.getValue(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        repeaterAlert = builder.create();
+        repeaterAlert.show();
     }
 
     @Override

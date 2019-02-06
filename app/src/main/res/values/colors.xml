@@ -13,4 +13,6 @@
     <color name="colorPrimaryDarkExpense">#88363C</color>
     <color name="colorAccentExpense">#b5525c</color>
 
+    <color name="colorTextGrey">#808080</color>
+
 </resources>

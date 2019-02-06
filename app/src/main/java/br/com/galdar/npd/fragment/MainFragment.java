@@ -263,7 +263,7 @@ public class MainFragment extends Fragment {
                 String monthFormated = String.format("%02d", (date.getMonth()));
                 balanceMonthText.setText( "Saldo total para o mês de " + meses[ date.getMonth() -1 ] );
                 monthYearSelected = String.valueOf(monthFormated + "" + date.getYear());
-                transactionsRef.removeEventListener(valueEventListenerFromTransactions);
+                // transactionsRef.removeEventListener(valueEventListenerFromTransactions);
                 getTransacions();
             }
         });

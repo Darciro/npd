@@ -136,7 +136,7 @@
             android:paddingBottom="8dp">
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/incomeRepeaterButtonExpense"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
@@ -145,13 +145,23 @@
                 app:srcCompat="@drawable/ic_repeat_24dp" />
 
             <TextView
-                android:id="@+id/textView61"
+                android:id="@+id/repeaterSettedHeaderExpense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
                 android:gravity="center"
                 android:text="Repete"
                 android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/repeaterSettedExpense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:gravity="center"
+                android:text=""
+                android:textSize="12sp"
+                android:visibility="gone" />
 
         </LinearLayout>
 
